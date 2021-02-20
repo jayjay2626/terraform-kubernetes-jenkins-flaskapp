@@ -42,7 +42,7 @@ resource "kubernetes_deployment" "flaskapp" {
   }
 
   spec {
-    replicas = 2
+    replicas = 3
     selector {
       match_labels = {
         App = "ScalableFlaskAppExample"
@@ -56,11 +56,11 @@ resource "kubernetes_deployment" "flaskapp" {
       }
       spec {
         container {
-          image = "rangeley826/flask-docker-app-jenkins:latest"
+          image = "rangeley826/flaskapp:latest"
           name  = "flaskapp"
 
           port {
-            container_port = 80
+            container_port = 5000
           }
 
           resources {
@@ -89,8 +89,8 @@ resource "kubernetes_service" "flaskapp" {
     }
     port {
       node_port   = 30201
-      port        = 80
-      target_port = 80
+      port        = 5000
+      target_port = 5000
     }
 
     type = "NodePort"
