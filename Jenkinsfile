@@ -23,6 +23,13 @@ pipeline{
             }
         }
 
+	stage('Terraform Destroy'){
+            steps {
+                // Destroy terraform if already exist
+                sh 'terraform destroy --auto-approve'
+            }
+        }
+
         stage('Terraform Init'){
             steps {
                 // Initialize terraform with all the required plugin
