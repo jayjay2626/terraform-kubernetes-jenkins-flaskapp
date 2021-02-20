@@ -42,7 +42,7 @@ resource "kubernetes_deployment" "flaskapp" {
   }
 
   spec {
-    replicas = 3
+    replicas = 5
     selector {
       match_labels = {
         App = "ScalableFlaskAppExample"
