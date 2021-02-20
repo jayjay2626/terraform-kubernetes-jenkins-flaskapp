@@ -13,6 +13,15 @@ pipeline{
                 sh 'git clone https://github.com/jayjay2626/terraform-kubernetes-jenkins-flaskapp.git'
             }
         }
+        
+        stage('Delete and Restart Kind Cluster'){
+            steps {
+                // Delete kind cluster if already exist
+                sh 'kind delete cluster --name terraform-flaskapp'
+                // Create Kind Cluster
+                sh 'kind create cluster --name terraform-flaskapp --config kind-config.yaml'
+            }
+        }
 
         stage('Terraform Init'){
             steps {
@@ -21,11 +30,26 @@ pipeline{
             }
         }
 
-           stage('Terraform Apply'){
+        stage('Terraform Apply'){
             steps {
                 // Applying terraform 
                 sh 'terraform apply --auto-approve'
             }
         }
+        
+        stage('Cluster Info'){
+            steps {
+                // Cluster info
+                sh 'kind get clusters'
+            }
+        }
+
+	stage('Pods Info'){
+            steps {
+                // Deployment info
+                sh 'kubectl get all --all-namespaces'
+            }
+        }
+
     }
 }
