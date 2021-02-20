@@ -33,11 +33,11 @@ provider "kubernetes" {
   # client_key             = var.client_key
   # cluster_ca_certificate = var.cluster_ca_certificate
 }
-resource "kubernetes_deployment" "nginx" {
+resource "kubernetes_deployment" "flaskapp" {
   metadata {
-    name = "scalable-nginx-example"
+    name = "scalable-flaskapp-example"
     labels = {
-      App = "ScalableNginxExample"
+      App = "ScalableFlaskAppExample"
     }
   }
 
@@ -45,19 +45,19 @@ resource "kubernetes_deployment" "nginx" {
     replicas = 2
     selector {
       match_labels = {
-        App = "ScalableNginxExample"
+        App = "ScalableFlaskAppExample"
       }
     }
     template {
       metadata {
         labels = {
-          App = "ScalableNginxExample"
+          App = "ScalableFlaskAppExample"
         }
       }
       spec {
         container {
-          image = "nginx:latest"
-          name  = "example"
+          image = "rangeley826/flask-docker-app-jenkins:latest"
+          name  = "flaskapp"
 
           port {
             container_port = 80
@@ -79,13 +79,13 @@ resource "kubernetes_deployment" "nginx" {
   }
 }
 
-resource "kubernetes_service" "nginx" {
+resource "kubernetes_service" "flaskapp" {
   metadata {
-    name = "nginx-example"
+    name = "flaskapp-example"
   }
   spec {
     selector = {
-      App = kubernetes_deployment.nginx.spec.0.template.0.metadata[0].labels.App
+      App = kubernetes_deployment.flaskapp.spec.0.template.0.metadata[0].labels.App
     }
     port {
       node_port   = 30201
