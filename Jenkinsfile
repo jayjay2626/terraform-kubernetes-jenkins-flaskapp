@@ -23,12 +23,6 @@ pipeline{
             }
         }
 
-	stage('Terraform Destroy'){
-            steps {
-                // Destroy terraform if already exist
-                sh 'terraform destroy --auto-approve'
-            }
-        }
 
         stage('Terraform Init'){
             steps {
