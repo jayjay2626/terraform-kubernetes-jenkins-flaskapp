@@ -42,16 +42,16 @@ resource "kubernetes_deployment" "flaskapp" {
   }
 
   spec {
-    replicas = 5
+    replicas = 2
     selector {
       match_labels = {
-        App = "ScalableFlaskAppExample"
+        App = "FlaskApp"
       }
     }
     template {
       metadata {
         labels = {
-          App = "ScalableFlaskAppExample"
+          App = "FlaskApp"
         }
       }
       spec {
